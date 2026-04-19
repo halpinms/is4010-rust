@@ -36,33 +36,33 @@ pub struct Stack<T> {
 impl<T> Stack<T> {
     /// Creates a new, empty stack.
     pub fn new() -> Self {
-        todo!("Implement Stack::new")
+        Self { data: Vec::new() }
     }
 
     /// Pushes `item` onto the top of the stack.
-    pub fn push(&mut self, _item: T) {
-        todo!("Implement push")
+    pub fn push(&mut self, item: T) {
+        self.data.push(item);
     }
 
     /// Removes and returns the top item, or `None` if the stack is empty.
     pub fn pop(&mut self) -> Option<T> {
-        todo!("Implement pop")
+        self.data.pop()
     }
 
     /// Returns a reference to the top item without removing it,
     /// or `None` if the stack is empty.
     pub fn peek(&self) -> Option<&T> {
-        todo!("Implement peek")
+        self.data.last()
     }
 
     /// Returns `true` if the stack contains no items.
     pub fn is_empty(&self) -> bool {
-        todo!("Implement is_empty")
+        self.data.is_empty()
     }
 
     /// Returns the number of items in the stack.
     pub fn len(&self) -> usize {
-        todo!("Implement len")
+        self.data.len()
     }
 }
 
@@ -72,9 +72,19 @@ impl<T> Stack<T> {
 // Example: a stack with 1 pushed first and 3 pushed last prints as "[1, 2, 3]".
 // An empty stack prints as "[]".
 // ============================================================================
+
 impl<T: fmt::Debug> fmt::Display for Stack<T> {
-    fn fmt(&self, _f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        todo!("Implement Display for Stack<T> — hint: write!(f, \"[...]\") using self.data")
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "[")?;
+
+        for (i, item) in self.data.iter().enumerate() {
+            if i > 0 {
+                write!(f, ", ")?;
+            }
+            write!(f, "{:?}", item)?;
+        }
+
+        write!(f, "]")
     }
 }
 
@@ -83,7 +93,31 @@ impl<T: fmt::Debug> fmt::Display for Stack<T> {
 //
 // Implement the helper struct and then the two trait impls below.
 // ============================================================================
+// Helper iterator struct
+pub struct StackIntoIterator<T> {
+    iter: std::vec::IntoIter<T>,
+}
 
+// Implement Iterator (top → bottom)
+impl<T> Iterator for StackIntoIterator<T> {
+    type Item = T;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.iter.next_back() // pop from the end (top of stack)
+    }
+}
+
+// Implement IntoIterator for Stack<T>
+impl<T> IntoIterator for Stack<T> {
+    type Item = T;
+    type IntoIter = StackIntoIterator<T>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        StackIntoIterator {
+            iter: self.data.into_iter(),
+        }
+    }
+}
 // ============================================================================
 // TESTS — DO NOT MODIFY
 // ============================================================================
