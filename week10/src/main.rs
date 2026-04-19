@@ -42,10 +42,9 @@ fn problem_1() {
     println!("  The length of '{}' is {}.", s1, len);
 }
 
-fn calculate_length(s: &str) -> usize{
+fn calculate_length(s: &str) -> usize {
     s.len()
 }
-
 
 // ============================================================================
 // PROBLEM 2: Immutable and mutable borrow conflict
@@ -59,12 +58,11 @@ fn calculate_length(s: &str) -> usize{
 fn problem_2() {
     println!("Problem 2: Mutable and immutable borrow conflict");
     let mut s = String::from("hello");
-    let r1 = &s;      // immutable borrow
+    let r1 = &s; // immutable borrow
     println!("{}", r1);
-    let r2= &mut s;
+    let r2 = &mut s;
     println!("{}", r2);
 }
-
 
 // ============================================================================
 // PROBLEM 3: Mutating through an immutable reference
@@ -86,7 +84,6 @@ fn add_to_string(s: &mut String) {
     s.push_str(", world");
 }
 
-
 // ============================================================================
 // PROBLEM 4: Multiple mutable borrows
 // ============================================================================
@@ -100,17 +97,16 @@ fn problem_4() {
     println!("Problem 4: Multiple mutable borrows");
     let mut s = String::from("hello");
 
-   {
-    let r1 = &mut s;
-    println!("{}", r1);
-}
+    {
+        let r1 = &mut s;
+        println!("{}", r1);
+    }
 
-{
-    let r2 = &mut s;
-    println!("{}", r2);
+    {
+        let r2 = &mut s;
+        println!("{}", r2);
+    }
 }
-}
-
 
 // ============================================================================
 // PROBLEM 5: Dangling reference
@@ -130,7 +126,6 @@ fn problem_5() {
 fn create_string() -> String {
     String::from("hello")
 }
-
 
 // ============================================================================
 // PROBLEM 6: Ownership in loops
@@ -154,7 +149,6 @@ fn print_with_number(s: &str, n: i32) {
     println!("  {}: {}", n, s);
 }
 
-
 // ============================================================================
 // PROBLEM 7: Lifetime — reference doesn't live long enough
 // ============================================================================
@@ -170,7 +164,6 @@ fn problem_7() {
     let result = &s;
     println!("  Result: {}", result);
 }
-
 
 // ============================================================================
 // PART 2 — Implementation exercises
